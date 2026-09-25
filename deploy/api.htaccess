@@ -1,0 +1,19 @@
+# ============================================================
+# Reverse-proxy the public API subdomain to the local Rust binary.
+# Put this file as `.htaccess` in the document root of a cPanel
+# subdomain, e.g.  api.drtaponckdu.com  ->  public_html/api.drtaponckdu.com/
+#
+# The Rust API listens on 127.0.0.1:PORT (PORT from its .env).
+# Requires mod_proxy + mod_proxy_http (your previous Rust project
+# proves your host allows the [P] proxy flag).
+#
+# Result:
+#   https://api.drtaponckdu.com/api/v1/...   -> 127.0.0.1:PORT/api/v1/...
+#   https://api.drtaponckdu.com/uploads/...  -> 127.0.0.1:PORT/uploads/...
+# Change 3001 below to match PORT in drtaponckdu_api/.env
+# ============================================================
+RewriteEngine On
+RewriteRule ^(.*)$ http://127.0.0.1:3001/$1 [P,L]
+
+# Pass the original Host/scheme through to the app.
+RequestHeader set X-Forwarded-Proto "https"

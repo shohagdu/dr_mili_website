@@ -1,0 +1,13 @@
+# Rust build artifacts
+/target
+
+# Uploaded files
+/uploads
+
+# Environment variables
+.env
+.env.local
+
+# Editor / OS
+*.swp
+.DS_Store

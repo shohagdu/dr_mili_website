@@ -1,0 +1,66 @@
+[package]
+name = "drtapan-api"
+version = "0.1.0"
+edition = "2021"
+authors = ["Dr. Tapan Website Team"]
+description = "REST API for Dr. Md. Touhid Belal Tapan's urology practice website"
+default-run = "drtapan-api"
+
+[dependencies]
+# Web framework
+actix-web = "4.9"
+actix-cors = "0.7"
+actix-multipart = "0.7"
+actix-files = "0.6"
+
+# Async runtime
+tokio = { version = "1.41", features = ["full"] }
+futures-util = "0.3"
+
+# Database
+sqlx = { version = "0.8", features = [
+    "runtime-tokio-rustls",
+    "mysql",
+    "chrono",
+    "macros",
+    "migrate",
+] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Date & time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Validation
+validator = { version = "0.18", features = ["derive"] }
+
+# Auth & security
+jsonwebtoken = "9.3"
+argon2 = "0.5"
+rand_core = { version = "0.6", features = ["std"] }
+
+# Logging & error handling
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Env
+dotenvy = "0.15"
+
+# HTTP client (for SMS gateway)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# Email
+lettre = { version = "0.11", features = ["tokio1-rustls-tls", "smtp-transport", "builder"], default-features = false }
+
+# Misc
+uuid = { version = "1.10", features = ["v4", "serde"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true

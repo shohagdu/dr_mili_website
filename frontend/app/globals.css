@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Theme tokens — default "Clinical Blue" palette. Values are RGB channel
+   triplets (not hex) so Tailwind's opacity modifiers (e.g. border-ink/20)
+   work via `rgb(var(--x) / <alpha-value>)`. At runtime these are overwritten
+   by an SSR-injected <style> tag based on the active theme (app/layout.tsx),
+   so the site is fully styled even before/without the theme fetch (no FOUC).
+   ------------------------------------------------------------------ */
+:root {
+  --color-ink: 15 27 61;
+  --color-ink-soft: 31 42 77;
+  --color-ink-muted: 91 99 120;
+  --color-ink-subtle: 139 148 168;
+  --color-paper: 255 255 255;
+  --color-paper-warm: 245 248 255;
+  --color-paper-cream: 231 238 255;
+  --color-clinical: 45 91 255;
+  --color-clinical-dark: 30 68 214;
+  --color-clinical-light: 91 130 255;
+  --color-clinical-tint: 231 238 255;
+  --color-clinical-deep: 11 31 107;
+  --color-accent: 6 182 212;
+  --color-accent-dark: 8 145 178;
+  --color-accent-light: 103 232 249;
+  --color-coral: 239 68 68;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans;
+  }
+
+  h1, h2, h3, h4, h5 {
+    @apply font-display tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-clinical text-paper;
+  }
+}
+
+@layer components {
+  .container-prose {
+    @apply max-w-3xl mx-auto px-6 md:px-8;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-6 md:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5
+           bg-clinical text-paper font-medium rounded-full
+           hover:bg-clinical-dark transition-all duration-300
+           hover:shadow-[0_8px_30px_rgb(45,91,255,0.3)]
+           focus:outline-none focus:ring-2 focus:ring-clinical focus:ring-offset-2 focus:ring-offset-paper;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5
+           bg-transparent text-ink border border-ink/20 font-medium rounded-full
+           hover:bg-ink hover:text-paper hover:border-ink transition-all duration-300;
+  }
+
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5
+           bg-accent text-paper font-medium rounded-full
+           hover:bg-accent-dark transition-all duration-300
+           hover:shadow-[0_8px_30px_rgb(6,182,212,0.3)];
+  }
+
+  .pill {
+    @apply inline-flex items-center px-3 py-1 text-xs uppercase tracking-[0.15em]
+           font-medium border border-ink/20 rounded-full text-ink-muted;
+  }
+
+  .underline-link {
+    @apply relative inline-block after:absolute after:bottom-0 after:left-0
+           after:w-full after:h-px after:bg-current after:origin-right after:scale-x-100
+           hover:after:origin-left hover:after:scale-x-0 after:transition-transform after:duration-300;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Decorative divider — small accent lines */
+  .rule::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background-color: currentColor;
+    vertical-align: middle;
+    margin-right: 0.75rem;
+    opacity: 0.4;
+  }
+
+  /* Soft sky → white gradient used for hero / CTA bands */
+  .bg-hero-sky {
+    background: linear-gradient(180deg, #e3edff 0%, #f5f8ff 60%, #ffffff 100%);
+  }
+
+  /* Soft elevated card shadow — clean medical aesthetic */
+  .card-shadow {
+    box-shadow: 0 4px 24px -8px rgba(15, 27, 61, 0.08), 0 1px 3px rgba(15, 27, 61, 0.04);
+  }
+  .card-shadow-lg {
+    box-shadow: 0 24px 64px -24px rgba(15, 27, 61, 0.18), 0 4px 12px rgba(15, 27, 61, 0.06);
+  }
+}
+
+/* Form fields */
+.field-input {
+  @apply w-full px-4 py-3 bg-paper-warm/50 border border-ink/15 rounded-lg
+         text-ink placeholder:text-ink-subtle
+         focus:outline-none focus:ring-2 focus:ring-clinical/30 focus:border-clinical
+         transition-colors;
+}
+
+.field-label {
+  @apply block text-sm font-medium text-ink-soft mb-2;
+}
